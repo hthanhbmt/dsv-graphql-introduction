@@ -1,0 +1,14 @@
+{
+  "name": "dsv-graphql-introduction",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "apollo-server": "^2.4.8",
+    "graphql": "^14.2.1",
+    "mongoose": "^5.5.3"
+  }
+}
