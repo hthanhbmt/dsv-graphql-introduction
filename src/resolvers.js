@@ -1,3 +1,5 @@
+const Books = require('./models/books');
+
 const authors = [
   {
     id: '1',
@@ -8,27 +10,6 @@ const authors = [
     id: '2',
     name: 'Nguyen Nhat Anh',
     books: ['2', '3'],
-  },
-];
-
-const books = [
-  {
-    id: '1',
-    title: 'De men phieu luu ky',
-    publisher: '2',
-    authors: ['1'],
-  },
-  {
-    id: '2',
-    title: 'Toi thay hoa vang tren co xanh',
-    publisher: '1',
-    authors: ['2'],
-  },
-  {
-    id: '3',
-    title: 'Kinh van hoa',
-    publisher: '1',
-    authors: ['2'],
   },
 ];
 
@@ -49,7 +30,7 @@ const resolvers = {
   Query: {
     authors: () => authors,
     author: (root, { id }) => authors.find(a => a.id === id),
-    books: () => books,
+    books: () => Books.find(),
     book: (root, { id }) => books.find(b => b.id === id),
     publishers: () => publishers,
     publisher: (root, { id }) => publishers.find(p => p.id === id),
@@ -57,8 +38,11 @@ const resolvers = {
   Author: {
     books(author) {
       const bookIds = author.books;
-      const res = books.filter(b => bookIds.includes(b.id));
-      return res;
+      return Books.find({
+        id: {
+          $in: bookIds,
+        },
+      });
     },
   },
   Book: {
@@ -76,8 +60,11 @@ const resolvers = {
   Publisher: {
     books(publisher) {
       const bookIds = publisher.books;
-      const res = books.filter(b => bookIds.includes(b.id));
-      return res;
+      return Books.find({
+        id: {
+          $in: bookIds,
+        },
+      });
     },
   },
 };

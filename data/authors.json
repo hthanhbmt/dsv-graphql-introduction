@@ -1,0 +1,12 @@
+[
+  {
+    "id": "1",
+    "name": "To Hoai",
+    "books": ["1"]
+  },
+  {
+    "id": "2",
+    "name": "Nguyen Nhat Anh",
+    "books": ["2", "3"]
+  }
+]

@@ -1,4 +1,5 @@
 const { ApolloServer } = require('apollo-server');
+require('./init.js');
 const typeDefs = require('./schema.js');
 const resolvers = require('./resolvers.js');
 
@@ -12,3 +13,4 @@ const server = new ApolloServer({
 server.listen({ port: PORT }).then(({ url }) => {
   console.log(`🚀 Server ready at ${url}`);
 });
+

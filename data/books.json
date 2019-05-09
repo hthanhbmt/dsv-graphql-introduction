@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "title": "De men phieu luu ky",
+    "publisher": "2",
+    "authors": ["1"]
+  },
+  {
+    "id": "2",
+    "title": "Toi thay hoa vang tren co xanh",
+    "publisher": "1",
+    "authors": ["2"]
+  },
+  {
+    "id": "3",
+    "title": "Kinh van hoa",
+    "publisher": "1",
+    "authors": ["2"]
+  }
+]
