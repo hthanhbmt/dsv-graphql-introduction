@@ -1,18 +1,8 @@
 const Books = require('./models/books');
 const psql = require('./init/postgres');
+const axios = require('axios');
 
-const publishers = [
-  {
-    id: '1',
-    name: 'Nha xuat ban Tre',
-    books: ['2', '3'],
-  },
-  {
-    id: '2',
-    name: 'Nha xuat ban Kim Dong',
-    books: ['1'],
-  },
-];
+const PUBLISHERS_API = 'https://dsv-graphql-introduction.free.beeceptor.com/publishers';
 
 const resolvers = {
   Query: {
@@ -26,8 +16,15 @@ const resolvers = {
     },
     books: () => Books.find(),
     book: (root, { id }) => Books.findOne({ id }),
-    publishers: () => publishers,
-    publisher: (root, { id }) => publishers.find(p => p.id === id),
+    publishers: async () => {
+      const res = await axios.get(PUBLISHERS_API);
+      return res && res.data;
+    },
+    publisher: async (root, { id }) => {
+      const endpoint = `${PUBLISHERS_API}/${id}`;
+      const res = await axios.get(endpoint);
+      return res && res.data;
+    },
   },
   Author: {
     books(author) {
@@ -45,10 +42,11 @@ const resolvers = {
       const res = await psql.query('SELECT * FROM authors WHERE id = $1', authorIds);
       return res && res.rows;
     },
-    publisher(book) {
+    publisher: async (book) => {
       const publisherId = book.publisher;
-      const res = publishers.find(p => p.id === publisherId);
-      return res;
+      const endpoint = `${PUBLISHERS_API}/${publisherId}`;
+      const res = await axios.get(endpoint);
+      return res && res.data;
     }
   },
   Publisher: {
