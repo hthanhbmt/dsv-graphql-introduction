@@ -1,6 +1,7 @@
 const Books = require('./models/books');
 const psql = require('./init/postgres');
 const axios = require('axios');
+const pubsub = require('./pubsub');
 
 const PUBLISHERS_API = 'https://dsv-graphql-introduction.free.beeceptor.com/publishers';
 
@@ -24,6 +25,19 @@ const resolvers = {
       const endpoint = `${PUBLISHERS_API}/${id}`;
       const res = await axios.get(endpoint);
       return res && res.data;
+    },
+  },
+  Mutation: {
+    addBook: async (root, { book }) => {
+      const b = await Books.create(book);
+      // Publish new message
+      pubsub.publish('bookAdded', { bookAdded: b });
+      return b;
+    },
+  },
+  Subscription: {
+    bookAdded: {
+      subscribe: () => pubsub.asyncIterator('bookAdded'),
     },
   },
   Author: {

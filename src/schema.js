@@ -29,6 +29,21 @@ const typeDefs = gql`
     publishers: [Publisher]
     publisher(id: ID!): Publisher
   }
+
+  input BookInput {
+    id: ID!
+    title: String!
+    publisher: String!
+    authors: [String]!
+  }
+
+  type Mutation {
+    addBook(book: BookInput!): Book
+  }
+
+  type Subscription {
+    bookAdded: Book
+  }
 `;
 
 module.exports = typeDefs;
