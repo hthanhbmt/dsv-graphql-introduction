@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon"
+    "start": "nodemon",
+    "update": "docker-compose exec app npm install"
   },
   "dependencies": {
     "apollo-server": "^2.4.8",
