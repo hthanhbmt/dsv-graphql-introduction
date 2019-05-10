@@ -11,8 +11,9 @@ services:
       - "/usr/src/app/node_modules/"
     depends_on:
       - mongo
+      - postgres
     environment:
-      WAIT_HOSTS: mongo:27017
+      WAIT_HOSTS: mongo:27017, postgres:5432
 
   mongo:
     image: mongo
@@ -21,4 +22,12 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
     ports:
       - "27017:27017"
-    
+  
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: dsv
