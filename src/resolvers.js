@@ -1,17 +1,5 @@
 const Books = require('./models/books');
-
-const authors = [
-  {
-    id: '1',
-    name: 'To Hoai',
-    books: ['1'],
-  },
-  {
-    id: '2',
-    name: 'Nguyen Nhat Anh',
-    books: ['2', '3'],
-  },
-];
+const psql = require('./init/postgres');
 
 const publishers = [
   {
@@ -28,10 +16,16 @@ const publishers = [
 
 const resolvers = {
   Query: {
-    authors: () => authors,
-    author: (root, { id }) => authors.find(a => a.id === id),
+    authors: async () => {
+      const res = await psql.query('SELECT * FROM authors');
+      return res && res.rows;
+    },
+    author: async (root, { id }) => {
+      const res = await psql.query('SELECT * FROM authors WHERE id = $1', [id]);
+      return res && res.rows && res.rows.length && res.rows[0];
+    },
     books: () => Books.find(),
-    book: (root, { id }) => books.find(b => b.id === id),
+    book: (root, { id }) => Books.findOne({ id }),
     publishers: () => publishers,
     publisher: (root, { id }) => publishers.find(p => p.id === id),
   },
@@ -46,10 +40,10 @@ const resolvers = {
     },
   },
   Book: {
-    authors(book) {
+    authors: async (book) => {
       const authorIds = book.authors;
-      const res = authors.filter(a => authorIds.includes(a.id));
-      return res;
+      const res = await psql.query('SELECT * FROM authors WHERE id = $1', authorIds);
+      return res && res.rows;
     },
     publisher(book) {
       const publisherId = book.publisher;
