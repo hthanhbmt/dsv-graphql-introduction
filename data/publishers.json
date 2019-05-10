@@ -1,0 +1,12 @@
+[
+  {
+    "id": "1",
+    "name": "Nha xuat ban Tre",
+"books": ["2", "3"]
+  },
+  {
+    "id": "2",
+    "name": "Nha xuat ban Kim Dong",
+    "books":  ["1"]
+  }
+]
